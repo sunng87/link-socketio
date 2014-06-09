@@ -1,15 +1,16 @@
 (ns link.socketio.example
   (:refer-clojure :exclude [send])
-  (:require [link.core :refer [send]]
+  (:require [link.core :refer [send remote-addr id close]]
             [link.socketio :refer :all]))
 
 (def default-handler
   (create-handler
    (on-connect [ch]
-               (println "on connect" ch))
+               (println "on connect" (id ch) (remote-addr ch)))
    (on-message [ch msg]
                (send ch "Greeting from server!")
-               (println "on message" ch msg))
+               (println "on message" ch msg)
+               (close ch))
    (on-disconnect [ch]
                   (println "on disconnect" ch))))
 
