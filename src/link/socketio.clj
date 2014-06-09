@@ -18,15 +18,10 @@
   (id [this]
     (str (.getSessionId this)))
   (send* [this msg cb]
-    (if (instance? msg String)
-      (.sendMessage this msg
-                    (proxy [VoidAckCallback] []
-                      (onSuccess []
-                        (cb))))
-      (.sendJsonObject this msg
-                       (proxy [VoidAckCallback] []
-                         (onSuccess []
-                           (cb))))))
+    (.sendMessage this msg
+                  (proxy [VoidAckCallback] []
+                    (onSuccess []
+                      (cb)))))
   (send [this msg]
     (send* this msg (fn [])))
   (channel-addr [this]
@@ -99,7 +94,7 @@
            (reify DataListener
              (onData [this client msg ack]
                (when-let [h (:on-message handler)]
-                 (h client client msg)))))))
+                 (h client msg)))))))
 
       (.start server))))
 

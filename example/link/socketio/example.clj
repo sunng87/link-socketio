@@ -8,6 +8,7 @@
    (on-connect [ch]
                (println "on connect" ch))
    (on-message [ch msg]
+               (send ch "Greeting from server!")
                (println "on message" ch msg))
    (on-disconnect [ch]
                   (println "on disconnect" ch))))
