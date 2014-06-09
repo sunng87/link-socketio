@@ -7,7 +7,7 @@
   (:import [com.corundumstudio.socketio
             Configuration SocketIOServer
             SocketIOClient VoidAckCallback
-            AckRequest])
+            AckRequest SocketConfig])
   (:import [com.corundumstudio.socketio.listener
             ConnectListener DisconnectListener
             DataListener ClientListeners]))
@@ -49,9 +49,12 @@
                                  heartbeat-interval
                                  ack-mode]
                           :or {hostname "0.0.0.0"}}]
-  (let [config (doto (Configuration.)
+  (let [socket-config (doto (SocketConfig.)
+                        (.setReuseAddress true))
+        config (doto (Configuration.)
                  (.setPort port)
-                 (.setHostname hostname))]
+                 (.setHostname hostname)
+                 (.setSocketConfig socket-config))]
     (when ssl-keystore-in
       (.setKeyStore ^Configuration config
                     ssl-keystore-in))
