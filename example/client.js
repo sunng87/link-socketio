@@ -1,5 +1,11 @@
 var io = require('socket.io-client')
-var socket = io.connect('http://localhost:9494/');
+var socket = io.connect('http://localhost:9494/',
+                        {transports: [/*'websocekt',*/
+                          'flashsocket',
+                          'htmlfile',
+                          'xhr-multipart',
+                          'xhr-polling',
+                          'jsonp-polling']});
 socket.on('connect', function(){
   console.log("connected");
   socket.on('message', function(data){
