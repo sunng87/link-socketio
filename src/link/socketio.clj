@@ -44,6 +44,8 @@
 
 (defn socketio-server [port handlers
                        & {:keys [ssl-keystore-in
+                                 ssl-keystore-password
+                                 ssl-keystore-format
                                  hostname
                                  heartbeat-timeout
                                  heartbeat-interval
@@ -58,6 +60,14 @@
     (when ssl-keystore-in
       (.setKeyStore ^Configuration config
                     ssl-keystore-in))
+
+    (when ssl-keystore-password
+      (.setKeyStorePassword ^Configuration config
+                            ssl-keystore-password))
+
+    (when ssl-keystore-format
+      (.setKeyStoreFormat ^Configuration config
+                          ssl-keystore-format))
 
     (when heartbeat-timeout
       (.setHeartbeatTimeout ^Configuration config
