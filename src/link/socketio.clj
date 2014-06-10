@@ -20,7 +20,7 @@
   (send* [this msg cb]
     (.sendMessage this msg
                   (proxy [VoidAckCallback] []
-                    (onSuccess []
+                    (onSuccess [r]
                       (cb)))))
   (send [this msg]
     (send* this msg (fn [])))
