@@ -13,7 +13,7 @@ currently, but will soon.)
 ### Leiningen
 
 ```clojure
-[link/link-socketio "0.1.0"]
+[link/link-socketio "0.1.2"]
 ```
 
 ### Server Handlers
