@@ -8,9 +8,10 @@
    (on-connect [ch]
                (println "on connect" (id ch) (remote-addr ch)))
    (on-event "test" [ch msg]
-               (send ch "Greeting from server!")
-               (println "on message" ch msg)
-               (close ch))
+             (send ch {:event "test"
+                       :data "Greeting from server!"})
+             (println "on message" ch msg)
+             (close ch))
    (on-disconnect [ch]
                   (println "on disconnect" ch))))
 

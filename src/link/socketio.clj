@@ -19,10 +19,11 @@
   (id [this]
     (str (.getSessionId this)))
   (send* [this msg cb]
-    (.sendMessage this msg
-                  (proxy [VoidAckCallback] []
-                    (onSuccess [r]
-                      (cb)))))
+    (let [{evt :event data :data} msg]
+     (.sendEvent this evt
+                 (proxy [VoidAckCallback] []
+                   (onSuccess [r]
+                     (cb))) (into-array Object [data]))))
   (send [this msg]
     (send* this msg (fn [])))
   (channel-addr [this]
