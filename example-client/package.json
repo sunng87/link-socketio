@@ -1,0 +1,15 @@
+{
+	"name": "socketio-client",
+	"version": "0.0.0",
+	"description": "a socketio for push/im service",
+	"main": "client.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Ning Sun",
+	"license": "ISC",
+	"dependencies": {
+		"socket.io-client": "1.0.6",
+		"prompt": "*"
+	}
+}

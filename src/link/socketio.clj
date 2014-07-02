@@ -103,14 +103,15 @@
                  (h client)))))
 
           (doseq [[event h] (u/parse-event-handlers handler)]
+            (println event h)
             (.addEventListener
              ^ClientListeners socketio-ns
              event
              String
              (reify DataListener
                (onData [this client msg ack]
-                 (when-let [h (:on-message handler)]
-                   (h client msg))))))))
+                 (println msg)
+                 (h client msg)))))))
 
       (.start server))))
 
