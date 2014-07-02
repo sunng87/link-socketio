@@ -7,7 +7,7 @@
   (create-handler
    (on-connect [ch]
                (println "on connect" (id ch) (remote-addr ch)))
-   (on-message [ch msg]
+   (on-event "test" [ch msg]
                (send ch "Greeting from server!")
                (println "on message" ch msg)
                (close ch))

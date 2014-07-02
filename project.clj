@@ -1,10 +1,10 @@
-(defproject link/link-socketio "0.1.3-SNAPSHOT"
+(defproject link/link-socketio "0.2.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [com.corundumstudio.socketio/netty-socketio "1.6.5"]
+                 [com.corundumstudio.socketio/netty-socketio "1.7.0"]
                  [link "0.6.9"]]
   :profiles {:example {:source-paths ["example"]}}
   :lein-release {:scm :git

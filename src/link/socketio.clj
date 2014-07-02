@@ -3,7 +3,8 @@
   (:require [link.core :refer
              [LinkMessageChannel id send* send channel-addr
               remote-addr close valid?]]
-            [link.util :refer [make-handler-macro]])
+            [link.util :refer [make-handler-macro]]
+            [link.socketio.util :as u])
   (:import [com.corundumstudio.socketio
             Configuration SocketIOServer
             SocketIOClient VoidAckCallback
@@ -35,9 +36,7 @@
 
 (make-handler-macro connect)
 (make-handler-macro disconnect)
-(make-handler-macro message)
-;;(make-handler-macro event)
-;;(make-handler-macro json)
+(u/make-event-handler-macro event)
 
 (defmacro create-handler [& body]
   `(merge ~@body))
@@ -102,12 +101,15 @@
                (when-let [h (:on-disconnect handler)]
                  (h client)))))
 
-          (.addMessageListener
-           ^ClientListeners socketio-ns
-           (reify DataListener
-             (onData [this client msg ack]
-               (when-let [h (:on-message handler)]
-                 (h client msg)))))))
+          (doseq [[event h] (u/parse-event-handlers handler)]
+            (.addEventListener
+             ^ClientListeners socketio-ns
+             event
+             String
+             (reify DataListener
+               (onData [this client msg ack]
+                 (when-let [h (:on-message handler)]
+                   (h client msg))))))))
 
       (.start server))))
 
