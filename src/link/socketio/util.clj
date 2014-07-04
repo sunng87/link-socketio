@@ -5,9 +5,10 @@
         symbol-name (symbol handler-name)
         args-vec-sym (symbol "args-vec")
         body-sym (symbol "body")
-        evt-sym (symbol "event")]
-    `(defmacro ~symbol-name [~evt-sym ~args-vec-sym & ~body-sym]
-       `{(keyword (str ~~handler-name "$" ~~evt-sym)) (fn ~~args-vec-sym ~@~body-sym)})))
+        evt-sym (symbol "event")
+        type-sym (symbol "type")]
+    `(defmacro ~symbol-name [~evt-sym ~type-sym ~args-vec-sym & ~body-sym]
+       `{(keyword (str ~~handler-name "$" ~~evt-sym)) [~~type-sym (fn ~~args-vec-sym ~@~body-sym)]})))
 
 (defn parse-event-handlers [handlers]
   (let [prefix ":on-event$"]

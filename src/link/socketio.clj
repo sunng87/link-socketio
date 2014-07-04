@@ -102,16 +102,15 @@
                (when-let [h (:on-disconnect handler)]
                  (h client)))))
 
-          (doseq [[event h] (u/parse-event-handlers handler)]
-            (println event h)
-            (.addEventListener
-             ^ClientListeners socketio-ns
-             event
-             String
-             (reify DataListener
-               (onData [this client msg ack]
-                 (println msg)
-                 (h client msg)))))))
+          (doseq [[event handler-detail] (u/parse-event-handlers handler)]
+            (let [[type h] handler-detail]
+              (.addEventListener
+               ^ClientListeners socketio-ns
+               event
+               type
+               (reify DataListener
+                 (onData [this client msg ack]
+                   (h client msg))))))))
 
       (.start server))))
 
