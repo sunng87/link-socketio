@@ -1,5 +1,5 @@
 var io = require('socket.io-client');
-var socket = io('http://localhost:9494/', {'transports': ['websocket'], 'forceBase64': false});
+var socket = io('http://localhost:9494/', {'transports': ['polling'], 'forceBase64': false});
 socket.on('connect', function(){
   console.log("connected");
 
