@@ -1,4 +1,4 @@
-(defproject link/link-socketio "0.2.0"
+(defproject link/link-socketio "0.2.1-SNAPSHOT"
   :description "SocketIO server in link verbs."
   :url "http://github.com/sunng87/link-socketio"
   :license {:name "Eclipse Public License"
