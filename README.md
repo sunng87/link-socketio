@@ -4,17 +4,18 @@ SocketIO server with [link](https://github.com/sunng87/link) verbs,
 based on
 [Nikita Koksharov's netty-socketio](https://github.com/mrniko/netty-socketio).
 
+link-socketio 0.2 based on netty-socketio `1.7.x` now supports
+SocketIO protocol 1.0. There are some breaking changes compared with 0.1.
+
 link-socketio 0.1 is based on netty-socketio `1.6.5`, implements
-SocketIO protocol till 0.9. (Yes, we don't support SocketIO 1.0
-currently, but will soon.)
+SocketIO protocol till 0.9.
+
 
 ## Usage
 
 ### Leiningen
 
-```clojure
-[link/link-socketio "0.1.2"]
-```
+![latest version on clojars](https://clojars.org/link/link-socketio/latest-version.svg)
 
 ### Server Handlers
 
@@ -29,14 +30,21 @@ style.
 (refer-clojure :exclude '[send])
 (require '[link.core :refer [send remote-addr id close]])
 (require '[link.socketio :refer :all])
+(import '[java.util Map])
 
 (def default-handler
   (create-handler
    (on-connect [ch]
                (println "on connect" (id ch) (remote-addr ch)))
 
-   (on-message [ch msg]
-               (send ch "Greeting from server!")
+   ;; on-event macro arguments
+   ;; 1. event name
+   ;; 2. serialized type, typically in clojure we use Map here
+
+   ;; and from 0.2, the data we sent must be a map contains :event and :data
+   (on-event "test" Map [ch msg]
+               (send ch {:event "test"
+                         :data "Greeting from server!")
                (println "on message" ch msg)
                (close ch))
 
