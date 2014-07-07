@@ -19,11 +19,15 @@
   (id [this]
     (str (.getSessionId this)))
   (send* [this msg cb]
-    (let [{evt :event data :data} msg]
-     (.sendEvent this evt
-                 (proxy [VoidAckCallback] []
-                   (onSuccess [r]
-                     (cb))) (into-array Object [data]))))
+    (if-not (map? msg)
+      (throw (IllegalArgumentException. "Msg must be a map contains :event and :data."))
+      (let [{evt :event data :data} msg]
+        (if-not evt
+          (throw (IllegalArgumentException. "Event name must not be nil."))
+          (.sendEvent this evt
+                      (proxy [VoidAckCallback] []
+                        (onSuccess [r]
+                          (cb))) (into-array Object [data]))))))
   (send [this msg]
     (send* this msg (fn [])))
   (channel-addr [this]
